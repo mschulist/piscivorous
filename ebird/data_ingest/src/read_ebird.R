@@ -16,10 +16,10 @@ source(here("gen_funs.R"))
 drive_sync(here("ebird/data_ingest/input/"), "https://drive.google.com/drive/u/0/folders/1Ts-wV_VCq2eK5TCLgILB2_lm108OcrQM")
 
 # Setting Filter Values ------------------
-species <- c("")
+species <- c("Yellow-rumped Warbler")
 
 # Setting up eBird directory and filtering ----------------
-ebd_filters <- auk_ebd(here("ebird/data_ingest/input/")) %>% 
+ebd_filters <- auk_ebd(here("ebird/data_ingest/input/ebd_US-AL-101_202103_202103_relMar-2021_SAMPLE/ebd_US-AL-101_202103_202103_relMar-2021.txt")) %>% 
   auk_species(species) %>% 
   auk_complete()
 
