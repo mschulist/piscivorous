@@ -23,4 +23,8 @@ ebd_filters <- auk_ebd(here("ebird/data_ingest/input/ebd_US-AL-101_202103_202103
   auk_species(species) %>% 
   auk_complete()
 
+if (dir.exists(here("ebird/data_ingest/output/")) == F) {
+  dir.create(here("ebird/data_ingest/output/"))
+}
+
 auk_filter(ebd_filters, file = here("ebird/data_ingest/output/ebd_output.txt"))
