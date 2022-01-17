@@ -5,6 +5,7 @@ library(here)
 library(googledrive)
 library(data.table)
 library(ggmap)
+library(gganimate)
 
 # Making symlink and input folder
 if (dir.exists(here("spatial/test/input")) == F) {
@@ -19,7 +20,9 @@ ebd_output <- fread(here("spatial/test/input/ebd_output.txt"))
 map <- get_stamenmap(
   bbox = c(top = 33, left = -86.8, right = -85.7, bottom = 31.5),
   maptype = "terrain",
-  zoom = 11
+  zoom = 10
 ) %>% 
   ggmap()+
-  geom_point(data = ebd_output, aes(LONGITUDE, LATITUDE))
+  geom_point(data = ebd_output, aes(LONGITUDE, LATITUDE, color = `COMMON NAME`, size = `OBSERVATION COUNT`))+
+  transition_states(`LAST EDITED DATE`)+
+  ease_aes()
