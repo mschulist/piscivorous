@@ -15,6 +15,6 @@ source(here("gen_funs.R"))
 river_map <- get_stamenmap(
   bbox = c(left = -123.8, bottom = 37.1, right = -120.8, top = 41.5), 
   maptype = "terrain", 
-  zoom = 11
+  zoom = 10
 ) %>% 
   ggmap()
