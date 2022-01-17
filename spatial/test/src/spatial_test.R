@@ -23,6 +23,6 @@ map <- get_stamenmap(
   zoom = 10
 ) %>% 
   ggmap()+
-  geom_point(data = ebd_output, aes(LONGITUDE, LATITUDE, color = `COMMON NAME`, size = `OBSERVATION COUNT`))+
-  transition_states(`LAST EDITED DATE`)+
-  ease_aes()
+  geom_point(data = ebd_output, aes(LONGITUDE, LATITUDE, color = `COMMON NAME`, size = `OBSERVATION COUNT`))#+
+  #transition_states(`LAST EDITED DATE`)+
+  #ease_aes()
