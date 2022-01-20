@@ -7,9 +7,14 @@ library(here)
 library(googledrive)
 library(data.table)
 library(ggmap)
+library(fs)
 
 source(here("gen_funs.R"))
 # source(here("ebird/data_ingest/src/read_ebird.R"))
+
+# Importing data
+link_create(here("ebird/data_ingest/output/ebd_filtered.txt"), here("spatial/data_ingest/input/ebd_filtered.txt"))
+ebd_output <- fread(here("ebird/data_ingest/output/ebd_filtered.txt"))
 
 # Making the map and inputting area of map
 river_map <- get_stamenmap(
@@ -17,4 +22,7 @@ river_map <- get_stamenmap(
   maptype = "terrain", 
   zoom = 10
 ) %>% 
-  ggmap()
+  ggmap() +
+  geom_point(data = ebd_output, aes(LONGITUDE, LATITUDE, color = `COMMON NAME`, size = `OBSERVATION COUNT`)) +
+  transition_states(`LAST EDITED DATE`) +
+  ease_aes()
