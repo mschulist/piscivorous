@@ -14,7 +14,10 @@ source(here("gen_funs.R"))
 
 # Importing data
 link_create(here("ebird/data_ingest/output/ebd_filtered.txt"), here("spatial/data_ingest/input/ebd_filtered.txt"))
-ebd_output <- fread(here("ebird/data_ingest/output/ebd_filtered.txt"))
+ebd_output <- fread(here("spatial/data_ingest/input/ebd_filtered.txt"))
+
+dcco_data <- ebd_output %>% 
+  filter(`COMMON NAME` == "Double-crested Cormorant", `OBSERVATION COUNT` != "X")
 
 # Making the map and inputting area of map
 river_map <- get_stamenmap(
@@ -23,6 +26,7 @@ river_map <- get_stamenmap(
   zoom = 10
 ) %>% 
   ggmap() +
-  geom_point(data = ebd_output, aes(LONGITUDE, LATITUDE, color = `COMMON NAME`, size = `OBSERVATION COUNT`)) +
-  transition_states(`LAST EDITED DATE`) +
-  ease_aes()
+  geom_tile(data = dcco_data, aes(LONGITUDE, LATITUDE, fill = ``))
+  #geom_point(data = dcco_data, aes(LONGITUDE, LATITUDE)) #+
+  #transition_states(`LAST EDITED DATE`) +
+  #ease_aes()
