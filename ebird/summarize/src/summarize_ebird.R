@@ -29,3 +29,14 @@ ebd_data <- fread(here("ebird/summarize/input/ebd_filtered.txt"))
 # Filtering eBird data ---------------
 dcco_ebd_data <- ebd_data %>% 
   filter(`COMMON NAME` == "Double-crested Cormorant")
+
+# Adding spatial region to eBird data ---------
+# First calculating area of each region
+delta_polygons <- R_EDSM_Regions_19P3 %>% 
+  mutate(polygon_area = st_area(geometry))
+
+# Making eBird data into sf object
+dcco_sf <- dcco_ebd_data %>% 
+  st_as_sf(coords = c("LONGITUDE", "LATITUDE"), crs = 26910)
+
+dcco_ebd_data_points <- st_within(dcco_sf, delta_polygons)
