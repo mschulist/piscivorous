@@ -24,7 +24,7 @@ if (file.exists(here("ebird/data_ingest/input/ebd_US-CA_relDec-2021.tar.gz")) ==
 
 # Unzipping file if not already unzipped
 if (dir.exists(here("ebird/data_ingest/input/ebd_US-CA_relDec-2021/")) == F) {
-  untar(here("ebird/data_ingest/input/ebd_US-CA_relDec-2021.tar.gz"))
+  untar(here("ebird/data_ingest/input/ebd_US-CA_relDec-2021.tar.gz"), exdir = "ebird/data_ingest/input/")
 }
 
 # Downloading list of birds to filter if not already downloaded

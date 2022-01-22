@@ -12,6 +12,7 @@ library(googledrive)
 library(data.table)
 library(auk)
 library(fs)
+library(sf)
 
 source(here("gen_funs.R"))
 
@@ -31,12 +32,12 @@ dcco_ebd_data <- ebd_data %>%
   filter(`COMMON NAME` == "Double-crested Cormorant")
 
 # Adding spatial region to eBird data ---------
-# First calculating area of each region
-delta_polygons <- R_EDSM_Regions_19P3 %>% 
-  mutate(polygon_area = st_area(geometry))
+# Importing shapefile for delta
+delta_map <- st_read(here("ebird/summarize/input/EDSM_shapefile/EDSM_subregions_120418_Phase1.shp"))
+
 
 # Making eBird data into sf object
 dcco_sf <- dcco_ebd_data %>% 
   st_as_sf(coords = c("LONGITUDE", "LATITUDE"), crs = 26910)
 
-dcco_ebd_data_points <- st_within(dcco_sf, delta_polygons)
+dcco_ebd_data_points <- st_join(dcco_sf, delta_map, join = st_within)
