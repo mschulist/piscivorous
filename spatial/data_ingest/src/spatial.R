@@ -8,6 +8,10 @@ library(googledrive)
 library(data.table)
 library(ggmap)
 library(fs)
+library(sf)
+library(randomcoloR)
+library(tmap)
+library(tmaptools)
 
 source(here("gen_funs.R"))
 # source(here("ebird/data_ingest/src/read_ebird.R"))
@@ -33,3 +37,31 @@ river_map <- get_stamenmap(
   #geom_point(data = dcco_data, aes(LONGITUDE, LATITUDE)) #+
   #transition_states(`LAST EDITED DATE`) +
   #ease_aes()
+
+# Plotting the DCCO with the polygons
+# First left_joining colors to the dcco_summary data based on the polygon
+colors <- tibble(
+  unique(dcco_summary$SQM), 
+  distinctColorPalette(length(unique(dcco_summary$SQM)))
+) %>% 
+  rename(SQM = 1, color = 2)
+
+dcco_summary <- left_join(dcco_summary, colors, by = "SQM")
+# Interactive Viewing Map
+tmap_mode("view")
+  tm_basemap("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png") +
+tm_shape(delta_map)+
+  tm_polygons(alpha = 0)+
+tm_shape(dcco_summary)+
+  tm_dots(col = "SubRegion")
+
+# Non-interactive Raster Map
+tmap_mode("plot")
+  tm_shape(read_osm(delta_map, type="stamen-terrain")) +
+    tm_rgb()+
+ tm_shape(delta_map)+
+   tm_polygons(alpha = 0)+
+ tm_shape(dcco_summary)+
+   tm_dots(col = "SubRegion", size = .05)+
+    tm_legend(legend.outside = T, legend.text.size = 1, legend.title.size = 2.5)
+  
