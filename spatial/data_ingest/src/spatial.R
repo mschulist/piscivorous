@@ -29,7 +29,7 @@ river_map <- get_stamenmap(
   zoom = 10
 ) %>% 
   ggmap() +
-  geom_tile(data = dcco_data, aes(LONGITUDE, LATITUDE, fill = `OBSERVATION COUNT`)) +
+  geom_tile(data = dcco_data, aes(LONGITUDE, LATITUDE, fill = `OBSERVATION COUNT`))
   #geom_point(data = dcco_data, aes(LONGITUDE, LATITUDE)) #+
   #transition_states(`LAST EDITED DATE`) +
   #ease_aes()
