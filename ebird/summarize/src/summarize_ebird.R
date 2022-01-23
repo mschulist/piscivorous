@@ -60,6 +60,6 @@ dcco_summary <- dcco_ebd_data_join %>%
   mutate(
     month_yr = format_ISO8601(date, precision = "ym") #only keeping the month and year
     ) %>% 
-  group_by(SQM, month_yr) %>% 
+  group_by(SQM, SubRegion, month_yr) %>% 
   filter(n() >= 3) %>% #getting rid of groups that do not have at least 3 data points
-  summarize(count = mean(`OBSERVATION COUNT`))
+  summarize(count = mean(`OBSERVATION COUNT`), st_dev = sd(`OBSERVATION COUNT`))
