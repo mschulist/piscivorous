@@ -33,6 +33,9 @@ dcco_ebd_data <- ebd_data %>%
   filter(`COMMON NAME` == "Double-crested Cormorant") %>%
   filter(`OBSERVATION COUNT` != "X")
 
+# Clean Up
+rm(ebd_data)
+
 # Getting rid of "X"
 dcco_ebd_data$`OBSERVATION COUNT` <- as.numeric(dcco_ebd_data$`OBSERVATION COUNT`)
 

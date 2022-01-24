@@ -19,7 +19,7 @@ if (dir.exists(here("ebird/data_ingest/input/")) == F) {
 
 # Checking if zip file has been downloaded and downloading if not already downloaded
 if (file.exists(here("ebird/data_ingest/input/ebd_US-CA_relDec-2021.tar.gz")) == F) {
-  drive_download("https://drive.google.com/file/d/1YxCmF4VdNxxsEzZbziJg6YonA0TC7bQe/view?usp=sharing", here("ebird/data_ingest/input/ebd_US-CA_relDec-2021.tar.gz"))
+  drive_download("https://drive.google.com/file/d/1XBpcUWO0ELD12nnD282V8DTPb5n7DN1Z/view?usp=sharing", here("ebird/data_ingest/input/ebd_US-CA_relDec-2021.tar.gz"))
 }
 
 # Unzipping file if not already unzipped
