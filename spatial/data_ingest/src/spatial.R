@@ -58,11 +58,12 @@ tm_shape(dcco_summary)+
   tm_dots(col = "SubRegion")
 
 # Non-interactive Raster Map
+tmap_options(max.categories = 33)
 tmap_mode("plot")
-  tm_shape(read_osm(delta_map, type="stamen-terrain")) +
+  tm_shape(read_osm(delta_map, type="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}")) +
     tm_rgb()+
  tm_shape(delta_map)+
-   tm_polygons(alpha = 0)+
+   tm_borders(col = "red", lwd = 1)+
  tm_shape(dcco_summary)+
    tm_dots(col = "SubRegion", size = "count")+
     tm_legend(legend.outside = T, legend.text.size = 2, title.size = 5) +
