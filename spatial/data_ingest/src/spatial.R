@@ -51,11 +51,11 @@ colors <- tibble(
 dcco_summary <- left_join(dcco_summary, colors, by = "SQM")
 # Interactive Viewing Map
 tmap_mode("view")
-  tm_basemap("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png") +
+  tm_basemap("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}") +
 tm_shape(delta_map)+
-  tm_polygons(alpha = 0)+
+  tm_borders(col = "red")+
 tm_shape(dcco_summary)+
-  tm_dots(col = "SubRegion")
+  tm_dots(col = "SubRegion", size = "count")
 
 # Non-interactive Raster Map
 tmap_options(max.categories = 33)
@@ -69,3 +69,15 @@ tmap_mode("plot")
     tm_legend(legend.outside = T, legend.text.size = 2, title.size = 5) +
     tm_layout(main.title = "Double-crested Cormorant Summary", title.size = 2)
   
+# Map with animation based on date
+tmap_mode("view")
+tm_shape(read_osm(delta_map, type="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}")) +
+  tm_rgb() +
+tm_shape(delta_map) +
+  tm_borders(col = "red") +
+tm_shape(dcco_summary) +
+  tm_dots(col = "SubRegion", size = "count") +
+tm_legend(legend.outside = T, legend.text.size = 2, title.size = 5) +
+tm_layout(title = "Double-crested Cormorant Summary", title.size = 2) +
+  tm_facets(along = "month_yr", free.coords = F, free.scales = F) -> dcco_animation
+tmap_animation(dcco_animation, width = 1920, height = 1080)
