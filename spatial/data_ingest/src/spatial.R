@@ -12,7 +12,6 @@ library(sf)
 library(randomcoloR)
 library(tmap)
 library(tmaptools)
-install.packages("auk")
 
 source(here("gen_funs.R"))
 source(here("ebird/summarize/src/summarize_ebird.R"))
