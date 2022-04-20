@@ -8,19 +8,25 @@ drive_sync <- function(local_dir, drive_folder, pattern = NULL) {
     dir.create(local_dir)
   }
   
-  # Getting info about the directories and the files in them
-  if (is.null(pattern) == TRUE) {
-    google_files <- drive_ls(as_dribble(drive_folder))
-  } else {
-    google_files <- drive_ls(as_dribble(drive_folder)) %>%
-      filter(str_detect(name, pattern = pattern))
-  }
   
-  if (is.null(pattern) == TRUE) {
-    local_files <- basename(system(paste0("find ", local_dir, " -mindepth 1 -maxdepth 1 ! -type l"), intern = TRUE))
+  # Getting info about the directories and the files in them
+    if (is.null(pattern) == TRUE) {
+      google_files <- drive_ls(as_dribble(drive_folder))
+    } else {
+      google_files <- drive_ls(as_dribble(drive_folder)) %>%
+        filter(str_detect(name, pattern = pattern))
+    }
+  
+  # Making it work on windows and unix systems
+  if (Sys.info()["sysname"] == "Windows") {
+    local_files <- list.files(local_dir)
   } else {
-    local_files <- basename(system(paste0("find ", local_dir, " -mindepth 1 -maxdepth 1 ! -type l"), intern = TRUE)) %>%
-      str_subset(pattern = pattern)
+    if (is.null(pattern) == TRUE) {
+      local_files <- basename(system(paste0("find ", local_dir, " -mindepth 1 -maxdepth 1 ! -type l"), intern = TRUE))
+    } else {
+      local_files <- basename(system(paste0("find ", local_dir, " -mindepth 1 -maxdepth 1 ! -type l"), intern = TRUE)) %>%
+        str_subset(pattern = pattern)
+    }
   }
   
   # Comparing the two directories
